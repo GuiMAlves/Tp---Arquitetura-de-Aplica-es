@@ -18,3 +18,8 @@ Este projeto é um sistema de gerenciamento de estoque para uma concessionária,
 1. Abra um terminal na pasta do projeto.
 2. Execute `node backend/src/index.js`.
 3. Acesse `http://localhost:3000` no navegador.
+
+## Executando o banco de dados 
+1. Abra um terminal na pasta raiz do projeto.
+2. Execute `docker-compose up -d`
+

@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: concessionaria_mongo
+    ports:
+      - "27017:27017"
+    #Volume para persistir os dados em armazenamento permanente no SSD
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: concessionaria
+volumes:
+  mongo_data:
