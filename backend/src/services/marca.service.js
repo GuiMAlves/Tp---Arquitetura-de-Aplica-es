@@ -14,6 +14,10 @@ class MarcaService {
   }
 
   async update(id, data) {
+    return Marca.findByIdAndUpdate(id, data, { new: true, runValidators: true, overwrite: true });
+  }
+
+  async patch(id, data) {
     return Marca.findByIdAndUpdate(id, data, { new: true, runValidators: true });
   }
 

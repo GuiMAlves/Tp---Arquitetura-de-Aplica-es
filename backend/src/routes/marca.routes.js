@@ -105,6 +105,39 @@ router.put('/:id', marcaController.update);
 /**
  * @openapi
  * /api/marcas/{id}:
+ *   patch:
+ *     tags:
+ *       - Marcas
+ *     summary: Atualizar parcialmente marca
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID da marca
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *               logo:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Marca atualizada parcialmente
+ *       404:
+ *         description: Marca não encontrada
+ */
+router.patch('/:id', marcaController.patch);
+
+/**
+ * @openapi
+ * /api/marcas/{id}:
  *   delete:
  *     tags:
  *       - Marcas

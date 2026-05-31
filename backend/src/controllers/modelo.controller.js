@@ -43,6 +43,18 @@ class ModeloController {
     }
   }
 
+  async patch(req, res, next) {
+    try {
+      const modelo = await modeloService.patch(req.params.id, req.body);
+      if (!modelo) {
+        return res.status(404).json({ error: 'Modelo não encontrado' });
+      }
+      res.json(modelo);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async delete(req, res, next) {
     try {
       const modelo = await modeloService.delete(req.params.id);

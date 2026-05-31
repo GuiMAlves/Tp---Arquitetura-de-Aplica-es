@@ -14,6 +14,10 @@ class ModeloService {
   }
 
   async update(id, data) {
+    return Modelo.findByIdAndUpdate(id, data, { new: true, runValidators: true, overwrite: true }).populate('marca');
+  }
+
+  async patch(id, data) {
     return Modelo.findByIdAndUpdate(id, data, { new: true, runValidators: true }).populate('marca');
   }
 

@@ -43,6 +43,18 @@ class MarcaController {
     }
   }
 
+  async patch(req, res, next) {
+    try {
+      const marca = await marcaService.patch(req.params.id, req.body);
+      if (!marca) {
+        return res.status(404).json({ error: 'Marca não encontrada' });
+      }
+      res.json(marca);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async delete(req, res, next) {
     try {
       const marca = await marcaService.delete(req.params.id);

@@ -150,6 +150,56 @@ router.put('/:id', modeloController.update);
 /**
  * @openapi
  * /api/modelos/{id}:
+ *   patch:
+ *     tags:
+ *       - Modelos
+ *     summary: Atualizar parcialmente modelo
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do modelo
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *               anoFabricacao:
+ *                 type: integer
+ *               anoModelo:
+ *                 type: integer
+ *               carroceria:
+ *                 type: string
+ *                 enum: ['Hatch', 'SUV', 'Pickup', 'Caminhonete', 'Esportivo']
+ *               kilometragem:
+ *                 type: integer
+ *               combustivel:
+ *                 type: string
+ *                 enum: ['Gasolina', 'Álcool', 'Flex', 'Elétrico']
+ *               cor:
+ *                 type: string
+ *               cambio:
+ *                 type: string
+ *                 enum: ['Automático', 'Manual']
+ *               marca:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Modelo atualizado parcialmente
+ *       404:
+ *         description: Modelo não encontrado
+ */
+router.patch('/:id', modeloController.patch);
+
+/**
+ * @openapi
+ * /api/modelos/{id}:
  *   delete:
  *     tags:
  *       - Modelos
