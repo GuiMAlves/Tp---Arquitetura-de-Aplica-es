@@ -102,6 +102,26 @@ router.post('/', marcaController.create);
  */
 router.put('/:id', marcaController.update);
 
+/**
+ * @openapi
+ * /api/marcas/{id}:
+ *   delete:
+ *     tags:
+ *       - Marcas
+ *     summary: Excluir marca
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID da marca
+ *     responses:
+ *       204:
+ *         description: Marca excluída com sucesso
+ *       404:
+ *         description: Marca não encontrada
+ */
 router.delete('/:id', marcaController.delete);
 
 module.exports = router;

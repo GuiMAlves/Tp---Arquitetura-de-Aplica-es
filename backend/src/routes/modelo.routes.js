@@ -147,6 +147,26 @@ router.post('/', modeloController.create);
  */
 router.put('/:id', modeloController.update);
 
+/**
+ * @openapi
+ * /api/modelos/{id}:
+ *   delete:
+ *     tags:
+ *       - Modelos
+ *     summary: Excluir modelo
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do modelo
+ *     responses:
+ *       204:
+ *         description: Modelo excluído com sucesso
+ *       404:
+ *         description: Modelo não encontrado
+ */
 router.delete('/:id', modeloController.delete);
 
 module.exports = router;
