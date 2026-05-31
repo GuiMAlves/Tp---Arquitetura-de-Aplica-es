@@ -14,12 +14,15 @@ Este projeto é um sistema de gerenciamento de estoque para uma concessionária,
 ## Backend
 - Foi criado o arquivo `backend/src/index.js`, que contém uma aplicação Node.js simples para servir uma resposta básica via HTTP.
 
-## Executando o backend
-1. Abra um terminal na pasta do projeto.
-2. Execute `node backend/src/index.js`.
-3. Acesse `http://localhost:3000` no navegador.
-
 ## Executando o banco de dados 
 1. Abra um terminal na pasta raiz do projeto.
 2. Execute `docker-compose up -d`
+
+## Executando o backend
+1. Abra um terminal na pasta backend `cd backend`.
+2. Instale as dependencias `npm install`
+4. Execute `npm run start`.
+3. Acesse `http://localhost:3000` no navegador.
+
+
 

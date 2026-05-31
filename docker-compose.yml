@@ -9,6 +9,7 @@ services:
     volumes:
       - mongo_data:/data/db
     environment:
+      # nome do banco de dados
       MONGO_INITDB_DATABASE: concessionaria
 volumes:
   mongo_data:
