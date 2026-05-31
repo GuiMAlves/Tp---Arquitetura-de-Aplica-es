@@ -1,8 +1,87 @@
-<html>
-  <head>
-    <title>Grand Auto</title>
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allianza Veículos Estoque</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Allianza Veículos Estoque</h1>
+    <nav>
+      <button data-view="marcas">Marcas</button>
+      <button data-view="modelos">Modelos</button>
+    </nav>
+  </header>
+  <main id="app"></main>
+
+  <template id="marcas-template">
+    <section>
+      <h2>Marcas</h2>
+      <button id="new-marca">Nova Marca</button>
+      <div id="marcas-list"></div>
+    </section>
+  </template>
+
+  <template id="modelos-template">
+    <section>
+      <h2>Modelos</h2>
+      <button id="new-modelo">Novo Modelo</button>
+      <div id="modelos-list"></div>
+    </section>
+  </template>
+
+  <template id="marca-form-template">
+    <section>
+      <h2 id="marca-form-title">Marca</h2>
+      <form id="marca-form">
+        <label>Nome<input name="nome" required /></label>
+        <label>Logo<input name="logo" required /></label>
+        <button type="submit">Salvar</button>
+      </form>
+      <div id="marca-message"></div>
+    </section>
+  </template>
+
+  <template id="modelo-form-template">
+    <section>
+      <h2 id="modelo-form-title">Modelo</h2>
+      <form id="modelo-form">
+        <label>Nome<input name="nome" required /></label>
+        <label>Ano de Fabricação<input name="anoFabricacao" type="number" required /></label>
+        <label>Ano do Modelo<input name="anoModelo" type="number" required /></label>
+        <label>Carroceria
+          <select name="carroceria" required>
+            <option value="Hatch">Hatch</option>
+            <option value="SUV">SUV</option>
+            <option value="Pickup">Pickup</option>
+            <option value="Caminhonete">Caminhonete</option>
+            <option value="Esportivo">Esportivo</option>
+          </select>
+        </label>
+        <label>Kilometragem<input name="kilometragem" type="number" min="0" required /></label>
+        <label>Combustível
+          <select name="combustivel" required>
+            <option value="Gasolina">Gasolina</option>
+            <option value="Álcool">Álcool</option>
+            <option value="Flex">Flex</option>
+            <option value="Elétrico">Elétrico</option>
+          </select>
+        </label>
+        <label>Cor<input name="cor" required /></label>
+        <label>Câmbio
+          <select name="cambio" required>
+            <option value="Automático">Automático</option>
+            <option value="Manual">Manual</option>
+          </select>
+        </label>
+        <label>Marca<select name="marca" required></select></label>
+        <button type="submit">Salvar</button>
+      </form>
+      <div id="modelo-message"></div>
+    </section>
+  </template>
+  <script src="app.js"></script>
+</body>
 </html>
