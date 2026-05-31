@@ -15,10 +15,21 @@
     </nav>
   </header>
   <main id="app"></main>
+  <template id="home-template">
+    <section>
+      <h2>Bem-vindo à Allianza Auto</h2>
+      <p>Gerencie o estoque de veículos: cadastre marcas e modelos, consulte informações e mantenha o inventário atualizado.</p>
+      <div>
+        <button id="enter-marcas">Ir para Marcas</button>
+        <button id="enter-modelos">Ir para Modelos</button>
+      </div>
+    </section>
+  </template>
 
   <template id="marcas-template">
     <section>
       <h2>Marcas</h2>
+      <button id="back-marcas">Voltar</button>
       <button id="new-marca">Nova Marca</button>
       <div id="marcas-list"></div>
     </section>
@@ -27,6 +38,7 @@
   <template id="modelos-template">
     <section>
       <h2>Modelos</h2>
+      <button id="back-modelos">Voltar</button>
       <button id="new-modelo">Novo Modelo</button>
       <div id="modelos-list"></div>
     </section>
@@ -37,7 +49,11 @@
       <h2 id="marca-form-title">Marca</h2>
       <form id="marca-form">
         <label>Nome<input name="nome" required /></label>
-        <label>Logo<input name="logo" required /></label>
+        <label>Logo (arquivo)
+          <input id="logo-file" type="file" accept="image/*" />
+        </label>
+        <input type="hidden" name="logo" />
+        <div id="logo-preview"><img id="logo-img" src="" alt="logo" width="40" height="40" style="display:none"/></div>
         <button type="submit">Salvar</button>
       </form>
       <div id="marca-message"></div>

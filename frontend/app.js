@@ -1,10 +1,11 @@
 const baseUrl = 'http://localhost:5000/api';
-let currentView = 'marcas';
+let currentView = 'home';
 
 const app = document.getElementById('app');
 const templates = {
   marcas: document.getElementById('marcas-template'),
   modelos: document.getElementById('modelos-template'),
+  home: document.getElementById('home-template'),
   marcaForm: document.getElementById('marca-form-template'),
   modeloForm: document.getElementById('modelo-form-template'),
 };
@@ -18,11 +19,22 @@ const render = (view) => {
   if (view === 'marcas') {
     loadMarcas();
     document.getElementById('new-marca').addEventListener('click', () => renderForm('marca'));
+    const backBtn = document.getElementById('back-marcas');
+    if (backBtn) backBtn.addEventListener('click', () => render('home'));
   }
 
   if (view === 'modelos') {
     loadModelos();
     document.getElementById('new-modelo').addEventListener('click', () => renderForm('modelo'));
+    const backBtn = document.getElementById('back-modelos');
+    if (backBtn) backBtn.addEventListener('click', () => render('home'));
+  }
+
+  if (view === 'home') {
+    const btnMarcas = document.getElementById('enter-marcas');
+    const btnModelos = document.getElementById('enter-modelos');
+    if (btnMarcas) btnMarcas.addEventListener('click', () => render('marcas'));
+    if (btnModelos) btnModelos.addEventListener('click', () => render('modelos'));
   }
 };
 
@@ -40,6 +52,13 @@ const fetchApi = async (path, { method = 'GET', body } = {}) => {
   return response.status === 204 ? null : response.json();
 };
 
+const fileToBase64 = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = reject;
+  reader.readAsDataURL(file);
+});
+
 const loadMarcas = async () => {
   try {
     const marcas = await fetchApi('/marcas');
@@ -47,7 +66,7 @@ const loadMarcas = async () => {
     list.innerHTML = marcas.map(marca => `
       <div>
         <h3>${marca.nome}</h3>
-        <p><strong>Logo:</strong> ${marca.logo}</p>
+        <p><strong>Logo:</strong> ${marca.logo ? ('<img src="' + marca.logo + '" width="40" height="40" alt="' + marca.nome + ' logo" />') : '-'} </p>
         <div>
           <button data-id="${marca._id}" data-action="edit-marca">Editar</button>
           <button data-id="${marca._id}" data-action="delete-marca">Excluir</button>
@@ -68,7 +87,7 @@ const loadModelos = async () => {
     list.innerHTML = modelos.map(modelo => `
       <div>
         <h3>${modelo.nome}</h3>
-        <p><strong>Marca:</strong> ${modelo.marca?.nome || 'Sem marca'}</p>
+        <p><strong>Marca:</strong> ${modelo.marca?.logo ? ('<img src="' + modelo.marca.logo + '" width="40" height="40" alt="' + modelo.marca.nome + ' logo" />') : (modelo.marca?.nome || 'Sem marca')}</p>
         <p><strong>Ano de Fabricação:</strong> ${modelo.anoFabricacao}</p>
         <p><strong>Ano do Modelo:</strong> ${modelo.anoModelo}</p>
         <p><strong>Carroceria:</strong> ${modelo.carroceria}</p>
@@ -97,11 +116,27 @@ const renderForm = async (type, id = null) => {
 
   if (type === 'marca') {
     const form = document.getElementById('marca-form');
+    const fileInput = document.getElementById('logo-file');
+    const hiddenLogo = form.querySelector('input[name="logo"]');
+    const img = document.getElementById('logo-img');
+    fileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const base64 = await fileToBase64(file);
+        hiddenLogo.value = base64;
+        img.src = base64;
+        img.style.display = '';
+      }
+    });
     form.addEventListener('submit', (e) => handleMarcaSubmit(e, id));
     if (id) {
       const marca = await fetchApi(`/marcas/${id}`);
       form.nome.value = marca.nome;
-      form.logo.value = marca.logo;
+      hiddenLogo.value = marca.logo || '';
+      if (marca.logo) {
+        img.src = marca.logo;
+        img.style.display = '';
+      }
       document.getElementById('marca-form-title').textContent = 'Editar Marca';
     }
   } else {
