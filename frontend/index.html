@@ -10,9 +10,10 @@
   <header>
     <div class="header-top">
       <h1>Allianza Veículos Estoque</h1>
-      <nav class="header-nav">
+      <nav class="header-nav" id="header-nav">
         <a href="#" data-view="marcas">Marcas</a>
         <a href="#" data-view="modelos">Modelos</a>
+        <a href="#" id="logout-btn" style="display:none;">Sair</a>
       </nav>
     </div>
     <p>Gerencie o estoque de veículos: cadastre marcas e modelos, consulte informações e mantenha o inventário atualizado.</p>
@@ -22,7 +23,11 @@
     <section>
       <h2>Bem-vindo à Allianza Auto</h2>
       <p>Gerencie o estoque de veículos: cadastre marcas e modelos, consulte informações e mantenha o inventário atualizado.</p>
-      <div>
+      <div id="auth-buttons">
+        <button id="login-btn">Login</button>
+        <button id="registro-btn">Registrar</button>
+      </div>
+      <div id="logged-buttons" style="display:none;">
         <button id="enter-marcas">Ir para Marcas</button>
         <button id="enter-modelos">Ir para Modelos</button>
       </div>
@@ -140,6 +145,39 @@
       <div id="modelo-message"></div>
     </section>
   </template>
+
+  <template id="login-template">
+    <section>
+      <h2>Login</h2>
+      <form id="login-form">
+        <label>Email<input name="email" type="email" required /></label>
+        <label>Senha<input name="senha" type="password" required /></label>
+        <div class="form-buttons">
+          <button type="submit">Entrar</button>
+          <button type="button" id="back-login">Voltar</button>
+        </div>
+      </form>
+      <div id="login-message"></div>
+    </section>
+  </template>
+
+  <template id="registro-template">
+    <section>
+      <h2>Registrar</h2>
+      <form id="registro-form">
+        <label>Nome<input name="nome" required /></label>
+        <label>Email<input name="email" type="email" required /></label>
+        <label>Senha<input name="senha" type="password" required /></label>
+        <label>Confirmar Senha<input name="confirmaSenha" type="password" required /></label>
+        <div class="form-buttons">
+          <button type="submit">Registrar</button>
+          <button type="button" id="back-registro">Voltar</button>
+        </div>
+      </form>
+      <div id="registro-message"></div>
+    </section>
+  </template>
+
   <script src="app.js"></script>
 </body>
 </html>

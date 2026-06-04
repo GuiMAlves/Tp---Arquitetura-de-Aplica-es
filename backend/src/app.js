@@ -4,6 +4,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
+const autenticar = require('./middleware/autenticar');
+const authRoutes = require('./routes/auth.routes');
 const marcaRoutes = require('./routes/marca.routes');
 const modeloRoutes = require('./routes/modelo.routes');
 
@@ -14,8 +16,12 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../../frontend')));
 
-app.use('/api/marcas', marcaRoutes);
-app.use('/api/modelos', modeloRoutes);
+// Rotas públicas
+app.use('/api/auth', authRoutes);
+
+// Rotas protegidas
+app.use('/api/marcas', autenticar, marcaRoutes);
+app.use('/api/modelos', autenticar, modeloRoutes);
 
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

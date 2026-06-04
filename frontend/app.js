@@ -1,5 +1,6 @@
 const baseUrl = 'http://localhost:5000/api';
 let currentView = 'home';
+let token = localStorage.getItem('token');
 
 const app = document.getElementById('app');
 const templates = {
@@ -8,9 +9,41 @@ const templates = {
   home: document.getElementById('home-template'),
   marcaForm: document.getElementById('marca-form-template'),
   modeloForm: document.getElementById('modelo-form-template'),
+  login: document.getElementById('login-template'),
+  registro: document.getElementById('registro-template'),
+};
+
+const getAuthHeaders = () => {
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+};
+
+const updateHeader = () => {
+  const headerNav = document.getElementById('header-nav');
+  const marcasLink = headerNav.querySelector('[data-view="marcas"]');
+  const modelosLink = headerNav.querySelector('[data-view="modelos"]');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  if (token) {
+    marcasLink.style.display = 'block';
+    modelosLink.style.display = 'block';
+    logoutBtn.style.display = 'block';
+  } else {
+    marcasLink.style.display = 'none';
+    modelosLink.style.display = 'none';
+    logoutBtn.style.display = 'none';
+  }
 };
 
 const render = (view) => {
+  if (view !== 'home' && view !== 'login' && view !== 'registro' && !token) {
+    render('home');
+    return;
+  }
+
   currentView = view;
   app.innerHTML = '';
   const clone = document.importNode(templates[view].content, true);
@@ -31,15 +64,45 @@ const render = (view) => {
   }
 
   if (view === 'home') {
-    const btnMarcas = document.getElementById('enter-marcas');
-    const btnModelos = document.getElementById('enter-modelos');
-    if (btnMarcas) btnMarcas.addEventListener('click', () => render('marcas'));
-    if (btnModelos) btnModelos.addEventListener('click', () => render('modelos'));
+    const authButtons = document.getElementById('auth-buttons');
+    const loggedButtons = document.getElementById('logged-buttons');
+    
+    if (token) {
+      authButtons.style.display = 'none';
+      loggedButtons.style.display = 'block';
+      const btnMarcas = document.getElementById('enter-marcas');
+      const btnModelos = document.getElementById('enter-modelos');
+      if (btnMarcas) btnMarcas.addEventListener('click', () => render('marcas'));
+      if (btnModelos) btnModelos.addEventListener('click', () => render('modelos'));
+    } else {
+      authButtons.style.display = 'block';
+      loggedButtons.style.display = 'none';
+      const loginBtn = document.getElementById('login-btn');
+      const registroBtn = document.getElementById('registro-btn');
+      if (loginBtn) loginBtn.addEventListener('click', () => render('login'));
+      if (registroBtn) registroBtn.addEventListener('click', () => render('registro'));
+    }
   }
+
+  if (view === 'login') {
+    const form = document.getElementById('login-form');
+    const backBtn = document.getElementById('back-login');
+    form.addEventListener('submit', handleLogin);
+    if (backBtn) backBtn.addEventListener('click', () => render('home'));
+  }
+
+  if (view === 'registro') {
+    const form = document.getElementById('registro-form');
+    const backBtn = document.getElementById('back-registro');
+    form.addEventListener('submit', handleRegistro);
+    if (backBtn) backBtn.addEventListener('click', () => render('home'));
+  }
+
+  updateHeader();
 };
 
 const fetchApi = async (path, { method = 'GET', body } = {}) => {
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = getAuthHeaders();
   const response = await fetch(`${baseUrl}${path}`, {
     method,
     headers,
@@ -58,6 +121,81 @@ const fileToBase64 = (file) => new Promise((resolve, reject) => {
   reader.onerror = reject;
   reader.readAsDataURL(file);
 });
+
+const handleLogin = async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const messageBox = document.getElementById('login-message');
+
+  try {
+    const response = await fetch(`${baseUrl}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: form.email.value,
+        senha: form.senha.value,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.error || 'Erro ao fazer login');
+    }
+
+    const data = await response.json();
+    token = data.token;
+    localStorage.setItem('token', token);
+    messageBox.textContent = 'Login realizado com sucesso!';
+    messageBox.classList.remove('error');
+    render('home');
+  } catch (err) {
+    messageBox.textContent = err.message;
+    messageBox.classList.add('error');
+  }
+};
+
+const handleRegistro = async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const messageBox = document.getElementById('registro-message');
+
+  try {
+    if (form.senha.value !== form.confirmaSenha.value) {
+      throw new Error('As senhas não coincidem');
+    }
+
+    const response = await fetch(`${baseUrl}/auth/registro`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: form.nome.value,
+        email: form.email.value,
+        senha: form.senha.value,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.error || 'Erro ao registrar');
+    }
+
+    const data = await response.json();
+    token = data.token;
+    localStorage.setItem('token', token);
+    messageBox.textContent = 'Registrado com sucesso!';
+    messageBox.classList.remove('error');
+    render('home');
+  } catch (err) {
+    messageBox.textContent = err.message;
+    messageBox.classList.add('error');
+  }
+};
+
+const logout = () => {
+  token = null;
+  localStorage.removeItem('token');
+  render('home');
+};
 
 const loadMarcas = async () => {
   try {
@@ -162,7 +300,6 @@ const renderForm = async (type, id = null) => {
     }
   }
 
-  // Add cancel button listeners
   const cancelBtn = type === 'marca' ? document.getElementById('marca-cancel') : document.getElementById('modelo-cancel');
   if (cancelBtn) {
     cancelBtn.addEventListener('click', () => {
@@ -243,13 +380,22 @@ const deleteModelo = async (id) => {
 };
 
 const init = () => {
-  document.querySelectorAll('header nav a').forEach(link => {
+  document.querySelectorAll('header nav a[data-view]').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       render(link.dataset.view);
     });
   });
-  render(currentView);
+
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      logout();
+    });
+  }
+
+  render('home');
 };
 
 window.addEventListener('DOMContentLoaded', init);
