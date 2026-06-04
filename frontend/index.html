@@ -8,11 +8,14 @@
 </head>
 <body>
   <header>
-    <h1>Allianza Veículos Estoque</h1>
-    <nav>
-      <button data-view="marcas">Marcas</button>
-      <button data-view="modelos">Modelos</button>
-    </nav>
+    <div class="header-top">
+      <h1>Allianza Veículos Estoque</h1>
+      <nav class="header-nav">
+        <a href="#" data-view="marcas">Marcas</a>
+        <a href="#" data-view="modelos">Modelos</a>
+      </nav>
+    </div>
+    <p>Gerencie o estoque de veículos: cadastre marcas e modelos, consulte informações e mantenha o inventário atualizado.</p>
   </header>
   <main id="app"></main>
   <template id="home-template">
@@ -29,18 +32,51 @@
   <template id="marcas-template">
     <section>
       <h2>Marcas</h2>
-      <button id="back-marcas">Voltar</button>
-      <button id="new-marca">Nova Marca</button>
-      <div id="marcas-list"></div>
+      <div class="header-buttons">
+        <button id="new-marca">Nova Marca</button>
+        <button id="back-marcas">Voltar</button>
+      </div>
+      <div class="table-container">
+        <table id="marcas-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Logo</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="marcas-list"></tbody>
+        </table>
+      </div>
     </section>
   </template>
 
   <template id="modelos-template">
     <section>
       <h2>Modelos</h2>
-      <button id="back-modelos">Voltar</button>
-      <button id="new-modelo">Novo Modelo</button>
-      <div id="modelos-list"></div>
+      <div class="header-buttons">
+        <button id="new-modelo">Novo Modelo</button>
+        <button id="back-modelos">Voltar</button>
+      </div>
+      <div class="table-container">
+        <table id="modelos-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Marca</th>
+              <th>Ano Fabricação</th>
+              <th>Ano Modelo</th>
+              <th>Carroceria</th>
+              <th>Kilometragem</th>
+              <th>Combustível</th>
+              <th>Cor</th>
+              <th>Câmbio</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="modelos-list"></tbody>
+        </table>
+      </div>
     </section>
   </template>
 
@@ -54,7 +90,10 @@
         </label>
         <input type="hidden" name="logo" />
         <div id="logo-preview"><img id="logo-img" src="" alt="logo" width="40" height="40" style="display:none"/></div>
-        <button type="submit">Salvar</button>
+        <div class="form-buttons">
+          <button type="submit">Salvar</button>
+          <button type="button" id="marca-cancel">Cancelar</button>
+        </div>
       </form>
       <div id="marca-message"></div>
     </section>
@@ -93,7 +132,10 @@
           </select>
         </label>
         <label>Marca<select name="marca" required></select></label>
-        <button type="submit">Salvar</button>
+        <div class="form-buttons">
+          <button type="submit">Salvar</button>
+          <button type="button" id="modelo-cancel">Cancelar</button>
+        </div>
       </form>
       <div id="modelo-message"></div>
     </section>

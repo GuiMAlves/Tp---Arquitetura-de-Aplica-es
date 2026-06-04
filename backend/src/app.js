@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, '../../public')));
+app.use(express.static(path.join(__dirname, '../../frontend')));
 
 app.use('/api/marcas', marcaRoutes);
 app.use('/api/modelos', modeloRoutes);
@@ -20,7 +20,7 @@ app.use('/api/modelos', modeloRoutes);
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../public/index.html'));
+  res.sendFile(path.join(__dirname, '../../frontend/index.html'));
 });
 
 app.use((req, res) => {

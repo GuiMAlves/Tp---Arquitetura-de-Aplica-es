@@ -64,15 +64,16 @@ const loadMarcas = async () => {
     const marcas = await fetchApi('/marcas');
     const list = document.getElementById('marcas-list');
     list.innerHTML = marcas.map(marca => `
-      <div>
-        <h3>${marca.nome}</h3>
-        <p><strong>Logo:</strong> ${marca.logo ? ('<img src="' + marca.logo + '" width="40" height="40" alt="' + marca.nome + ' logo" />') : '-'} </p>
-        <div>
-          <button data-id="${marca._id}" data-action="edit-marca">Editar</button>
-          <button data-id="${marca._id}" data-action="delete-marca">Excluir</button>
-        </div>
-      </div>
+      <tr>
+        <td>${marca.nome}</td>
+        <td>${marca.logo ? ('<img src="' + marca.logo + '" width="40" height="40" alt="' + marca.nome + ' logo" />') : '-'}</td>
+        <td class="actions-cell">
+          <button class="action-btn edit-btn" data-id="${marca._id}" data-action="edit-marca">Editar</button>
+          <button class="action-btn delete-btn" data-id="${marca._id}" data-action="delete-marca">Excluir</button>
+        </td>
+      </tr>
     `).join('');
+    
     list.querySelectorAll('[data-action="edit-marca"]').forEach(btn => btn.addEventListener('click', () => renderForm('marca', btn.dataset.id)));
     list.querySelectorAll('[data-action="delete-marca"]').forEach(btn => btn.addEventListener('click', () => deleteMarca(btn.dataset.id)));
   } catch (err) {
@@ -85,22 +86,23 @@ const loadModelos = async () => {
     const modelos = await fetchApi('/modelos');
     const list = document.getElementById('modelos-list');
     list.innerHTML = modelos.map(modelo => `
-      <div>
-        <h3>${modelo.nome}</h3>
-        <p><strong>Marca:</strong> ${modelo.marca?.logo ? ('<img src="' + modelo.marca.logo + '" width="40" height="40" alt="' + modelo.marca.nome + ' logo" />') : (modelo.marca?.nome || 'Sem marca')}</p>
-        <p><strong>Ano de Fabricação:</strong> ${modelo.anoFabricacao}</p>
-        <p><strong>Ano do Modelo:</strong> ${modelo.anoModelo}</p>
-        <p><strong>Carroceria:</strong> ${modelo.carroceria}</p>
-        <p><strong>Kilometragem:</strong> ${modelo.kilometragem}</p>
-        <p><strong>Combustível:</strong> ${modelo.combustivel}</p>
-        <p><strong>Cor:</strong> ${modelo.cor}</p>
-        <p><strong>Câmbio:</strong> ${modelo.cambio}</p>
-        <div>
-          <button data-id="${modelo._id}" data-action="edit-modelo">Editar</button>
-          <button data-id="${modelo._id}" data-action="delete-modelo">Excluir</button>
-        </div>
-      </div>
+      <tr>
+        <td>${modelo.nome}</td>
+        <td>${modelo.marca?.nome || 'Sem marca'}</td>
+        <td>${modelo.anoFabricacao}</td>
+        <td>${modelo.anoModelo}</td>
+        <td>${modelo.carroceria}</td>
+        <td>${modelo.kilometragem}</td>
+        <td>${modelo.combustivel}</td>
+        <td>${modelo.cor}</td>
+        <td>${modelo.cambio}</td>
+        <td class="actions-cell">
+          <button class="action-btn edit-btn" data-id="${modelo._id}" data-action="edit-modelo">Editar</button>
+          <button class="action-btn delete-btn" data-id="${modelo._id}" data-action="delete-modelo">Excluir</button>
+        </td>
+      </tr>
     `).join('');
+    
     list.querySelectorAll('[data-action="edit-modelo"]').forEach(btn => btn.addEventListener('click', () => renderForm('modelo', btn.dataset.id)));
     list.querySelectorAll('[data-action="delete-modelo"]').forEach(btn => btn.addEventListener('click', () => deleteModelo(btn.dataset.id)));
   } catch (err) {
@@ -158,6 +160,14 @@ const renderForm = async (type, id = null) => {
       form.marca.value = modelo.marca?._id || '';
       document.getElementById('modelo-form-title').textContent = 'Editar Modelo';
     }
+  }
+
+  // Add cancel button listeners
+  const cancelBtn = type === 'marca' ? document.getElementById('marca-cancel') : document.getElementById('modelo-cancel');
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+      render(type === 'marca' ? 'marcas' : 'modelos');
+    });
   }
 };
 
@@ -233,8 +243,11 @@ const deleteModelo = async (id) => {
 };
 
 const init = () => {
-  document.querySelectorAll('header nav button').forEach(button => {
-    button.addEventListener('click', () => render(button.dataset.view));
+  document.querySelectorAll('header nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      render(link.dataset.view);
+    });
   });
   render(currentView);
 };

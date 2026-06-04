@@ -9,16 +9,41 @@ header {
   color: #fff;
   padding: 16px;
 }
-header h1 {
-  margin: 0 0 12px 0;
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 }
-nav button {
-  margin-right: 8px;
-  padding: 10px 16px;
-  border: none;
-  background: #3c8dbc;
+
+header h1 {
+  margin: 0;
+  flex: 1;
+}
+
+.header-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.header-nav a {
   color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 16px;
+  background: #012a46;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
   cursor: pointer;
+  display: inline-block;
+}
+
+.header-nav a:hover {
+  background-color: #082d4a;
+  opacity: 0.9;
 }
 main {
   padding: 20px;
@@ -28,6 +53,32 @@ section {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+.header-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.header-buttons button {
+  width: auto;
+  max-width: none;
+  margin-top: 0;
+  padding: 10px 16px;
+  background: #0a3d62;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header-buttons button:last-child {
+  background: #6c757d;
+}
+
+.header-buttons button:hover {
+  opacity: 0.9;
 }
 button,
 input,
@@ -49,9 +100,52 @@ button[type="submit"],
   background: #0a3d62;
   color: white;
   border: none;
+  border-radius: 6px;
+  padding: 10px 16px !important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0 !important;
+  display: inline-block;
+}
+
+button[type="submit"]:hover,
+#new-marca:hover,
+#new-modelo:hover {
+  background: #082d4a;
+  opacity: 0.95;
 }
 label {
   margin-top: 12px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.form-buttons button {
+  width: auto;
+  max-width: none;
+  margin-top: 0;
+  padding: 10px 16px;
+}
+
+.form-buttons button[type="submit"] {
+  background: #0a3d62;
+  color: white;
+  border: none;
+}
+
+.form-buttons button[type="button"] {
+  background: #6c757d;
+  color: white;
+  border: none;
+}
+
+.form-buttons button:hover {
+  opacity: 0.9;
 }
 .card {
   border: 1px solid #ddd;
@@ -62,4 +156,79 @@ label {
 .card-actions button {
   margin-right: 8px;
   width: auto;
+}
+
+/* Table Styles */
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+thead {
+  background: #0a3d62;
+  color: white;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+  border: 1px solid #ccc;
+}
+
+td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  vertical-align: middle;
+}
+
+tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+tbody tr:hover {
+  background: #f0f0f0;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px !important;
+}
+
+.action-btn {
+  width: auto;
+  max-width: none;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.edit-btn {
+  background: #3c8dbc;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #2a6f99;
+}
+
+.delete-btn {
+  background: #d9534f;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c9423f;
 }
