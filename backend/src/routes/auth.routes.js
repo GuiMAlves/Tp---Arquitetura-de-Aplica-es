@@ -12,6 +12,38 @@ const gerarToken = (usuarioId) => {
   );
 };
 
+/**
+ * @swagger
+ * /api/auth/registro:
+ *   post:
+ *     summary: Registrar um novo usuário
+ *     tags: [Autenticação]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               senha:
+ *                 type: string
+ *             required:
+ *               - nome
+ *               - email
+ *               - senha
+ *     responses:
+ *       201:
+ *         description: Usuário registrado com sucesso
+ *       400:
+ *         description: Erro de validação
+ *       500:
+ *         description: Erro no servidor
+ */
 // Registro
 router.post('/registro', async (req, res) => {
   try {
@@ -40,6 +72,35 @@ router.post('/registro', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Fazer login e obter token JWT
+ *     tags: [Autenticação]
+ *     security: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               senha:
+ *                 type: string
+ *             required:
+ *               - email
+ *               - senha
+ *     responses:
+ *       200:
+ *         description: Login bem-sucedido
+ *       401:
+ *         description: Email ou senha incorretos
+ *       500:
+ *         description: Erro no servidor
+ */
 // Login
 router.post('/login', async (req, res) => {
   try {

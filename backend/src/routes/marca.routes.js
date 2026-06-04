@@ -4,25 +4,31 @@ const marcaController = require('../controllers/marca.controller');
 const router = express.Router();
 
 /**
- * @openapi
+ * @swagger
  * /api/marcas:
  *   get:
  *     tags:
  *       - Marcas
  *     summary: Listar todas as marcas
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de marcas
+ *       401:
+ *         description: Não autenticado
  */
 router.get('/', marcaController.list);
 
 /**
- * @openapi
+ * @swagger
  * /api/marcas/{id}:
  *   get:
  *     tags:
  *       - Marcas
  *     summary: Obter marca por ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -33,18 +39,22 @@ router.get('/', marcaController.list);
  *     responses:
  *       200:
  *         description: Marca encontrada
+ *       401:
+ *         description: Não autenticado
  *       404:
  *         description: Marca não encontrada
  */
 router.get('/:id', marcaController.getById);
 
 /**
- * @openapi
+ * @swagger
  * /api/marcas:
  *   post:
  *     tags:
  *       - Marcas
  *     summary: Criar uma nova marca
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -64,16 +74,20 @@ router.get('/:id', marcaController.getById);
  *         description: Marca criada
  *       400:
  *         description: Dados inválidos
+ *       401:
+ *         description: Não autenticado
  */
 router.post('/', marcaController.create);
 
 /**
- * @openapi
+ * @swagger
  * /api/marcas/{id}:
  *   put:
  *     tags:
  *       - Marcas
  *     summary: Atualizar marca
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -97,18 +111,22 @@ router.post('/', marcaController.create);
  *     responses:
  *       200:
  *         description: Marca atualizada
+ *       401:
+ *         description: Não autenticado
  *       404:
  *         description: Marca não encontrada
  */
 router.put('/:id', marcaController.update);
 
 /**
- * @openapi
+ * @swagger
  * /api/marcas/{id}:
  *   patch:
  *     tags:
  *       - Marcas
  *     summary: Atualizar parcialmente marca
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -130,18 +148,22 @@ router.put('/:id', marcaController.update);
  *     responses:
  *       200:
  *         description: Marca atualizada parcialmente
+ *       401:
+ *         description: Não autenticado
  *       404:
  *         description: Marca não encontrada
  */
 router.patch('/:id', marcaController.patch);
 
 /**
- * @openapi
+ * @swagger
  * /api/marcas/{id}:
  *   delete:
  *     tags:
  *       - Marcas
  *     summary: Excluir marca
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -152,6 +174,8 @@ router.patch('/:id', marcaController.patch);
  *     responses:
  *       204:
  *         description: Marca excluída com sucesso
+ *       401:
+ *         description: Não autenticado
  *       404:
  *         description: Marca não encontrada
  */

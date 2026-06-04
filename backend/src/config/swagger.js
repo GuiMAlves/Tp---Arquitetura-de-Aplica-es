@@ -1,5 +1,5 @@
 const swaggerJSDoc = require('swagger-jsdoc');
-//usar o backend sem o front end se usa essa ferramenta de comunicacao do ser humano para o backend - o swagger
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -11,6 +11,21 @@ const options = {
     servers: [
       {
         url: 'http://localhost:5000',
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          description: 'JWT Authorization header using the Bearer scheme',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
       },
     ],
   },

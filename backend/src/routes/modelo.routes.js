@@ -4,25 +4,31 @@ const modeloController = require('../controllers/modelo.controller');
 const router = express.Router();
 
 /**
- * @openapi
+ * @swagger
  * /api/modelos:
  *   get:
  *     tags:
  *       - Modelos
  *     summary: Listar todos os modelos
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de modelos
+ *       401:
+ *         description: Não autenticado
  */
 router.get('/', modeloController.list);
 
 /**
- * @openapi
+ * @swagger
  * /api/modelos/{id}:
  *   get:
  *     tags:
  *       - Modelos
  *     summary: Obter modelo por ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -32,18 +38,22 @@ router.get('/', modeloController.list);
  *     responses:
  *       200:
  *         description: Modelo encontrado
+ *       401:
+ *         description: Não autenticado
  *       404:
  *         description: Modelo não encontrado
  */
 router.get('/:id', modeloController.getById);
 
 /**
- * @openapi
+ * @swagger
  * /api/modelos:
  *   post:
  *     tags:
  *       - Modelos
  *     summary: Criar um novo modelo
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -85,16 +95,20 @@ router.get('/:id', modeloController.getById);
  *     responses:
  *       201:
  *         description: Modelo criado
+ *       401:
+ *         description: Não autenticado
  */
 router.post('/', modeloController.create);
 
 /**
- * @openapi
+ * @swagger
  * /api/modelos/{id}:
  *   put:
  *     tags:
  *       - Modelos
  *     summary: Atualizar modelo
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -142,18 +156,22 @@ router.post('/', modeloController.create);
  *     responses:
  *       200:
  *         description: Modelo atualizado
+ *       401:
+ *         description: Não autenticado
  *       404:
  *         description: Modelo não encontrado
  */
 router.put('/:id', modeloController.update);
 
 /**
- * @openapi
+ * @swagger
  * /api/modelos/{id}:
  *   patch:
  *     tags:
  *       - Modelos
  *     summary: Atualizar parcialmente modelo
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -192,18 +210,22 @@ router.put('/:id', modeloController.update);
  *     responses:
  *       200:
  *         description: Modelo atualizado parcialmente
+ *       401:
+ *         description: Não autenticado
  *       404:
  *         description: Modelo não encontrado
  */
 router.patch('/:id', modeloController.patch);
 
 /**
- * @openapi
+ * @swagger
  * /api/modelos/{id}:
  *   delete:
  *     tags:
  *       - Modelos
  *     summary: Excluir modelo
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -214,6 +236,8 @@ router.patch('/:id', modeloController.patch);
  *     responses:
  *       204:
  *         description: Modelo excluído com sucesso
+ *       401:
+ *         description: Não autenticado
  *       404:
  *         description: Modelo não encontrado
  */
