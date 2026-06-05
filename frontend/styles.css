@@ -5,8 +5,8 @@ body {
   color: #222;
 }
 header {
-  background: #0a3d62;
-  color: #fff;
+  background: #001625;
+  color: #ffffff;
   padding: 16px;
 }
 
@@ -47,6 +47,7 @@ header h1 {
 }
 main {
   padding: 20px;
+
 }
 section {
   background: white;
