@@ -43,6 +43,7 @@ Antes de executar o projeto, certifique-se de que possui as seguintes ferramenta
 - **Node.js** (versão LTS ou superior) - para executar a aplicação backend
 - **npm** (gerenciador de pacotes, incluído com Node.js)
 - **WSL 2** (recomendado para usuários Windows) - ambiente Linux integrado ao Windows
+- **Docker Dekstop** (recomendado para usuários Windows) - ele possibilita usar o container no linux
 - **Git** (opcional) - para controle de versão
 
 ## Instalação e Configuração
